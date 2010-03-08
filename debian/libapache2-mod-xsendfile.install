@@ -1,0 +1,2 @@
+debian/xsendfile.load etc/apache2/mods-available
+debian/xsendfile.conf etc/apache2/mods-available

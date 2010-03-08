@@ -1,0 +1,5 @@
+mod-xsendfile (0.0-1) unstable; urgency=low
+
+  * Initial release (upstream version)
+
+ -- Osvaldo Santana Neto <osantana@triveos.com>  Fri, 8 Mar 2010 18:58:00 -0300

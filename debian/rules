@@ -1,0 +1,56 @@
+#!/usr/bin/make -f
+#vim:noet
+
+PACKAGE=libapache2-mod-xsendfile
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+APXS2=/usr/bin/apxs2
+
+build-stamp:
+	$(APXS2) -c mod_xsendfile.c
+	touch $@
+
+build: build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -rf build-stamp mod_xsendfile.lo mod_xsendfile.la mod_xsendfile.slo .libs
+	dh_clean 
+
+install-clean:
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+
+install: build install-clean
+	mkdir -p $(CURDIR)/debian/$(PACKAGE)/usr/lib/apache2/modules
+	cp $(CURDIR)/.libs/mod_xsendfile.so \
+	   $(CURDIR)/debian/$(PACKAGE)/usr/lib/apache2/modules/mod_xsendfile.so
+
+
+# Build architecture-independent files here.
+binary-indep: build install
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs 
+	dh_installdocs
+	dh_install
+	dh_installman
+	dh_strip
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install
